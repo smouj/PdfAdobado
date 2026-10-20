@@ -1,4 +1,4 @@
-//! Community links: the Discord button is one click away everywhere; Help menu, About dialog and
+//! Support links: the issue tracker is one click away from the Help menu and About dialog, and
 //! home screen open the Adobado Kit and PdfAdobado pages.
 
 use egui_kittest::Harness;
@@ -18,18 +18,18 @@ fn harness(setup: impl FnOnce(&mut PdfAdobadoApp) + 'static) -> Harness<'static,
 }
 
 #[test]
-fn discord_button_in_the_top_bar_opens_discord() {
+fn help_button_in_the_top_bar_opens_the_issue_tracker() {
     let mut h = harness(|_| {});
-    h.get_by_label("Discord").click();
+    h.get_by_label("Help").click();
     h.run_steps(2);
     assert_eq!(h.state().last_opened_url.as_deref(), Some(links::DISCORD));
-    assert_eq!(links::DISCORD, "https://github.com/smouj/Adobado_Kit");
+    assert_eq!(links::SUPPORT, "https://github.com/smouj/PdfAdobado/issues");
 }
 
 #[test]
 fn home_screen_links() {
     for (label, url) in [
-        ("Join our Discord", links::DISCORD),
+        ("Get help and report an issue", links::SUPPORT),
         ("PdfAdobado web page", "https://github.com/smouj/PdfAdobado"),
         ("PdfAdobado on GitHub", "https://github.com/smouj/PdfAdobado"),
         ("Adobado Kit website", "https://github.com/smouj/Adobado_Kit"),
@@ -51,9 +51,9 @@ fn about_dialog_shows_the_brand_and_links() {
         app.dialog = Some(Dialog::About);
     });
     assert!(h.query_all_by_label("Adobado Kit").count() >= 2, "the mark and the wordmark (alt text)");
-    h.get_by_label("Join our Discord").click();
+    h.get_by_label("Get help and report an issue").click();
     h.run_steps(2);
-    assert_eq!(h.state().last_opened_url.as_deref(), Some(links::DISCORD));
+    assert_eq!(h.state().last_opened_url.as_deref(), Some(links::SUPPORT));
 }
 
 #[test]
