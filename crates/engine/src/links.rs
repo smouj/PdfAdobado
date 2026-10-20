@@ -4,13 +4,16 @@
 use icu_properties::props::Script;
 use std::path::{Path, PathBuf};
 
-/// The app's name in Adobado Kit URLs (`getartcraft.com/apps/{APP}`, `github.com/storytold/{APP}`).
-pub const APP: &str = "pdfcraft";
+/// The public repository name for this app.
+pub const APP: &str = "PdfAdobado";
 
-pub const DISCORD: &str = "https://github.com/smouj/Adobado_Kit";
-pub const WEBSITE: &str = "https://github.com/smouj/Adobado_Kit";
+pub const SUPPORT: &str = "https://github.com/smouj/PdfAdobado/issues";
+/// Compatibility alias for older integrations that used the former community-link name.
+pub const DISCORD: &str = SUPPORT;
+pub const WEBSITE: &str = "https://smouj.github.io/Adobado_Kit/";
 pub const APP_PAGE: &str = "https://github.com/smouj/PdfAdobado";
 pub const GITHUB: &str = "https://github.com/smouj/PdfAdobado";
+pub const ISSUES: &str = "https://github.com/smouj/PdfAdobado/issues";
 
 /// A link and the registry command that opens it.
 #[derive(Clone, Copy, Debug)]
@@ -22,10 +25,10 @@ pub struct Link {
     pub icon: &'static str,
 }
 
-/// In the order they are shown. Discord comes first: it is where people get help fastest.
+/// In the order they are shown. Support and release information come first.
 pub const LINKS: &[Link] = &[
-    Link { command: "help.discord", label: "Join the Adobado Kit Discord", url: DISCORD, icon: "messages-square" },
-    Link { command: "help.app_page", label: "PdfAdobado web page", url: APP_PAGE, icon: "globe" },
+    Link { command: "help.discord", label: "Get help and report an issue", url: SUPPORT, icon: "messages-square" },
+    Link { command: "help.app_page", label: "PdfAdobado project page", url: APP_PAGE, icon: "globe" },
     Link { command: "help.github", label: "PdfAdobado on GitHub", url: GITHUB, icon: "code-xml" },
     Link { command: "help.website", label: "Adobado Kit website", url: WEBSITE, icon: "external-link" },
 ];
@@ -555,8 +558,8 @@ mod tests {
 
     #[test]
     fn urls_follow_the_artcraft_scheme() {
-        assert_eq!(super::APP_PAGE, format!("{}/apps/{}", super::WEBSITE, super::APP));
-        assert_eq!(super::GITHUB, format!("https://github.com/storytold/{}", super::APP));
+        assert_eq!(super::APP_PAGE, super::GITHUB);
+        assert_eq!(super::GITHUB, format!("https://github.com/smouj/{}", super::APP));
         for l in super::LINKS {
             assert!(l.url.starts_with("https://"), "{}", l.url);
             assert!(crate::commands::command(l.command).is_some(), "{} is a registered command", l.command);
